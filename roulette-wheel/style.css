@@ -1,0 +1,398 @@
+@font-face {
+  font-family: 'DragonFont';
+  src: url('./Assets/dragonfont.ttf') format('truetype');
+  font-display: swap;
+}
+body {
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DragonFont', 'Orbitron', Arial, sans-serif;
+  overflow: hidden;
+  position: relative;
+  /* Animated red/gold gradient */
+  background: linear-gradient(120deg, #a80000 0%, #d42d2d 40%, #ffd700 100%);
+  background-size: 200% 200%;
+  animation: bg-gradient-move 12s ease-in-out infinite;
+}
+@keyframes bg-gradient-move {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: url('https://svgshare.com/i/15kA.svg') center/cover no-repeat;
+  opacity: 0.22;
+  pointer-events: none;
+  animation: dragon-move 24s linear infinite alternate;
+}
+@keyframes dragon-move {
+  0% { background-position: 50% 40%; opacity: 0.22; }
+  50% { background-position: 60% 60%; opacity: 0.32; }
+  100% { background-position: 50% 40%; opacity: 0.22; }
+}
+/* Floating gold sparkles */
+.bg-sparkle {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+}
+.bg-sparkle span {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fffbe6 0%, #ffd700 60%, #a80000 100%);
+  opacity: 0.7;
+  pointer-events: none;
+  animation: sparkle-float 8s linear infinite;
+}
+@keyframes sparkle-float {
+  0% { transform: translateY(100vh) scale(0.7); opacity: 0; }
+  10% { opacity: 0.7; }
+  90% { opacity: 0.7; }
+  100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+}
+#winningNumberDisplay {
+  min-width: 120px;
+  min-height: 60px;
+  margin-bottom: 18px;
+  font-size: 2.8rem;
+  font-family: 'DragonFont', 'Orbitron', Arial, sans-serif;
+  color: #ffd700;
+  background: linear-gradient(90deg, #a80000 0%, #d42d2d 100%);
+  border: 4px solid #ffd700;
+  border-radius: 18px;
+  box-shadow: 0 2px 24px #a80000cc, 0 0 0 6px #ffd70044 inset;
+  text-align: center;
+  line-height: 60px;
+  letter-spacing: 2px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 0 2px 8px #a80000, 0 0 8px #ffd700cc;
+}
+#betResultDisplay {
+  min-width: 180px;
+  min-height: 48px;
+  margin: 24px 0 8px 0;
+  font-size: 1.5rem;
+  font-family: 'DragonFont', 'Orbitron', Arial, sans-serif;
+  color: #ffd700;
+  background: linear-gradient(90deg, #a80000 0%, #d42d2d 100%);
+  border: 3px solid #ffd700;
+  border-radius: 18px;
+  box-shadow: 0 2px 16px #a80000cc, 0 0 0 4px #ffd70044 inset;
+  text-align: center;
+  line-height: 48px;
+  letter-spacing: 1px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 0 2px 8px #a80000, 0 0 8px #ffd700cc;
+}
+#betControls {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#betForm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(90deg, #a80000 0%, #d42d2d 100%);
+  border-radius: 16px;
+  padding: 10px 22px;
+  box-shadow: 0 1px 12px #a8000099, 0 0 0 4px #ffd70044 inset;
+  border: 3px solid #ffd700;
+}
+#betForm label {
+  font-size: 1.2rem;
+  color: #ffd700;
+  font-family: 'DragonFont', 'Orbitron', Arial, sans-serif;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 4px #a80000, 0 0 4px #ffd700cc;
+}
+#betForm input, #betForm select {
+  font-size: 1.1rem;
+  font-family: 'DragonFont', 'Orbitron', Arial, sans-serif;
+  border-radius: 8px;
+  border: 2px solid #ffd700;
+  padding: 4px 10px;
+  background: #a80000;
+  color: #ffd700;
+  outline: none;
+  box-shadow: 0 1px 4px #ffd70044 inset;
+}
+#betForm input[type=number]::-webkit-inner-spin-button, #betForm input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+#betForm button, #rollBtn {
+  margin-left: 8px;
+  padding: 10px 32px;
+  font-size: 1.3rem;
+  font-family: 'DragonFont', 'Orbitron', Arial, sans-serif;
+  background: linear-gradient(90deg, #ffd700 0%, #d42d2d 100%);
+  color: #a80000;
+  border: 3px solid #ffd700;
+  border-radius: 18px;
+  box-shadow: 0 2px 16px #a80000cc, 0 0 0 4px #ffd70044 inset;
+  cursor: pointer;
+  letter-spacing: 2px;
+  transition: background 0.2s, transform 0.1s, color 0.2s;
+  outline: none;
+  position: relative;
+  z-index: 3;
+  text-shadow: 0 2px 8px #ffd700cc, 0 0 8px #a80000;
+}
+#betForm button:active, #rollBtn:active {
+  background: linear-gradient(90deg, #d42d2d 0%, #ffd700 100%);
+  color: #ffd700;
+  transform: scale(0.97);
+}
+#wheel {
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle at 60% 40%, #d42d2d 60%, #a80000 100%);
+  border-radius: 50%;
+  box-shadow: 0 12px 48px #a80000cc, 0 1px 0 #ffd700 inset, 0 0 0 10px #ffd70099;
+  border: 8px solid #ffd700;
+  transition: box-shadow 0.2s;
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  display: block;
+}
+#pointer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -260px);
+  z-index: 2;
+  width: 0;
+  height: 0;
+  border-left: 18px solid transparent;
+  border-right: 18px solid transparent;
+  border-bottom: 36px solid #bfa76f;
+  filter: drop-shadow(0 2px 4px #0008);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px #0006;
+  animation: none;
+}
+@media (max-width: 500px) {
+  #wheel {
+    width: 95vw;
+    height: 95vw;
+  }
+  #pointer {
+    transform: translate(-50%, calc(-48vw - 10px));
+  }
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  margin: 0 auto;
+}
+#moneyDisplay, #winningNumberDisplay, #betControls, #betResultDisplay, #rollBtn {
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.wheel-and-chips {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 32px;
+  margin: 0 auto 0 auto;
+  position: relative;
+}
+#chipStack {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  min-width: 70px;
+  min-height: 420px;
+  gap: 24px;
+  margin: 0;
+}
+.chip-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.chip {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DragonFont', 'Orbitron', Arial, sans-serif;
+  font-size: 1.18rem;
+  font-weight: bold;
+  color: #ffd700;
+  border: 5px solid #ffd700;
+  box-shadow:
+    0 6px 24px #a80000bb,
+    0 2px 0 #ffd70088 inset,
+    0 0 0 6px #ffd70044 inset,
+    0 0 16px 4px #ffd70055;
+  position: relative;
+  background: linear-gradient(145deg, #ffd70044 0%, transparent 100%), #a80000;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+  animation: chip-shine 2.5s linear infinite;
+}
+@keyframes chip-shine {
+  0% { box-shadow: 0 6px 24px #a80000bb, 0 2px 0 #ffd70088 inset, 0 0 0 6px #ffd70044 inset, 0 0 16px 4px #ffd70055; }
+  50% { box-shadow: 0 8px 32px #a80000cc, 0 4px 0 #ffd70088 inset, 0 0 0 8px #ffd70055 inset, 0 0 32px 8px #ffd70099; }
+  100% { box-shadow: 0 6px 24px #a80000bb, 0 2px 0 #ffd70088 inset, 0 0 0 6px #ffd70044 inset, 0 0 16px 4px #ffd70055; }
+}
+.chip .chip-stripes {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0; top: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.95;
+}
+.chip .chip-value {
+  position: relative;
+  z-index: 2;
+  background: rgba(255,215,0,0.18);
+  border-radius: 50%;
+  padding: 7px 14px;
+  font-size: 1.18rem;
+  font-weight: bold;
+  box-shadow: 0 2px 8px #a80000aa inset, 0 1px 0 #ffd700cc inset;
+  text-shadow: 0 2px 2px #a80000cc, 0 1px 0 #ffd700, 0 0 6px #ffd700cc;
+  letter-spacing: 1px;
+  border: 2px solid #ffd700;
+  filter: drop-shadow(0 0 6px #ffd70088);
+}
+.chip.chip-1 {
+  background: radial-gradient(circle at 60% 30%, #fff 70%, #ffd700 100%), linear-gradient(145deg, #fff 60%, #ffd700 100%);
+  color: #a80000;
+  border-color: #ffd700;
+}
+.chip.chip-5 {
+  background: radial-gradient(circle at 60% 30%, #ff6b6b 70%, #ffd700 100%), linear-gradient(145deg, #e74c3c 60%, #ffd700 100%);
+}
+.chip.chip-10 {
+  background: radial-gradient(circle at 60% 30%, #ffb36b 70%, #ffd700 100%), linear-gradient(145deg, #ffd700 60%, #a80000 100%);
+}
+.chip.chip-25 {
+  background: radial-gradient(circle at 60% 30%, #ffd700 70%, #a80000 100%), linear-gradient(145deg, #ffd700 60%, #a80000 100%);
+}
+.chip.chip-100 {
+  background: radial-gradient(circle at 60% 30%, #ffd700 70%, #a80000 100%), linear-gradient(145deg, #ffd700 60%, #a80000 100%);
+}
+.chip.chip-500 {
+  background: radial-gradient(circle at 60% 30%, #ffd700 70%, #a80000 100%), linear-gradient(145deg, #ffd700 60%, #a80000 100%);
+}
+.chip.chip-1000 {
+  background: radial-gradient(circle at 60% 30%, #fffde4 70%, #ffd700 100%), linear-gradient(145deg, #ffd700 60%, #a80000 100%);
+  color: #a80000;
+}
+.chip.chip-1 .chip-stripes {
+  background: repeating-conic-gradient(from 0deg, #ffd700 0 10deg, transparent 10deg 20deg);
+}
+.chip.chip-5 .chip-stripes {
+  background: repeating-conic-gradient(from 0deg, #fff 0 10deg, transparent 10deg 20deg);
+}
+.chip.chip-10 .chip-stripes {
+  background: repeating-conic-gradient(from 0deg, #fff 0 10deg, transparent 10deg 20deg);
+}
+.chip.chip-25 .chip-stripes {
+  background: repeating-conic-gradient(from 0deg, #fff 0 10deg, transparent 10deg 20deg);
+}
+.chip.chip-100 .chip-stripes {
+  background: repeating-conic-gradient(from 0deg, #fff 0 10deg, transparent 10deg 20deg);
+}
+.chip.chip-500 .chip-stripes {
+  background: repeating-conic-gradient(from 0deg, #fff 0 10deg, transparent 10deg 20deg);
+}
+.chip.chip-1000 .chip-stripes {
+  background: repeating-conic-gradient(from 0deg, #fff 0 10deg, transparent 10deg 20deg);
+}
+
+@media (max-width: 900px) {
+  .wheel-and-chips {
+    flex-direction: column;
+    gap: 10px;
+  }
+  #chipStack {
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+    min-height: 0;
+    margin: 0;
+    margin-top: 18px;
+    gap: 10px;
+  }
+  .chip-column {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 6px;
+  }
+}
+
+#addMoneyBtn {
+  position: fixed;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  font-family: 'DragonFont', 'Orbitron', Arial, sans-serif;
+  font-size: 1.5rem;
+  background: linear-gradient(90deg, #ffd700 0%, #d42d2d 100%);
+  color: #a80000;
+  border: 3px solid #ffd700;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px #a80000cc, 0 0 0 6px #ffd70044 inset;
+  padding: 18px 32px;
+  cursor: pointer;
+  letter-spacing: 2px;
+  font-weight: bold;
+  text-shadow: 0 2px 8px #ffd700cc, 0 0 8px #a80000;
+  transition: background 0.2s, transform 0.1s, color 0.2s;
+  outline: none;
+  opacity: 0.95;
+}
+#addMoneyBtn:active {
+  background: linear-gradient(90deg, #d42d2d 0%, #ffd700 100%);
+  color: #ffd700;
+  transform: scale(0.97);
+}
+@media (max-width: 700px) {
+  #addMoneyBtn {
+    left: 12px;
+    top: 12px;
+    transform: none;
+    padding: 12px 18px;
+    font-size: 1.1rem;
+  }
+} 

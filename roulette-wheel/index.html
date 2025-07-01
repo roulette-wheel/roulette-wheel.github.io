@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roulette Wheel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <button id="addMoneyBtn">+$1000</button>
+  <div class='bg-sparkle'></div>
+  <div class="container">
+    <div id="moneyDisplay">$1000</div>
+    <div id="winningNumberDisplay">&nbsp;</div>
+    <div id="betControls">
+      <form id="betForm" autocomplete="off">
+        <label for="betAmount">Bet Amount: $</label>
+        <input type="number" id="betAmount" min="1" value="10" required style="width:70px;">
+        <label for="betType">on</label>
+        <select id="betType">
+          <option value="color">Color</option>
+          <option value="number">Number</option>
+        </select>
+        <select id="betColor" style="display:inline-block;">
+          <option value="red">Yellow</option>
+          <option value="black">Red</option>
+          <option value="green">Zero</option>
+        </select>
+        <select id="betNumber" style="display:none;">
+          <!-- 0-36 options will be filled by JS -->
+        </select>
+        <button type="submit" id="placeBetBtn">Place Bet</button>
+      </form>
+    </div>
+    <div class="wheel-and-chips">
+      <canvas id="wheel" width="420" height="420"></canvas>
+      <div id="chipStack"></div>
+    </div>
+    
+    <div id="betResultDisplay">&nbsp;</div>
+    <button id="rollBtn">ROLL</button>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html> 
