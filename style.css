@@ -13,37 +13,24 @@ body {
   font-family: 'DragonFont', 'Orbitron', Arial, sans-serif;
   overflow: hidden;
   position: relative;
-  /* Replace gradient with image background, add effects for coolness */
-  background: url('Assets/testingbg.png') center center/cover no-repeat fixed;
-  background-blend-mode: darken, luminosity;
-  filter: none;
-  /* Remove old gradient/animation */
-  /* background: linear-gradient(120deg, #a80000 0%, #d42d2d 40%, #ffd700 100%); */
-  /* background-size: 200% 200%; */
-  /* animation: bg-gradient-move 12s ease-in-out infinite; */
+  /* Use static background image instead of gradient */
+  background: url('Assets/testingbg.png') center center/cover no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  animation: none;
 }
 body::before {
-  /* ... existing code ... */
-  /* Add a dark overlay and keep the dragon SVG */
   content: '';
   position: fixed;
   inset: 0;
   z-index: 0;
-  background:
-    linear-gradient(120deg, rgba(40,0,0,0.55) 0%, rgba(168,0,0,0.45) 60%, rgba(0,0,0,0.7) 100%),
-    url('https://svgshare.com/i/15kA.svg') center/cover no-repeat;
-  opacity: 0.33;
+  /* Remove dragon SVG overlay for pure PNG background */
+  background: none;
+  opacity: 0;
   pointer-events: none;
-  animation: dragon-move 24s linear infinite alternate;
-  /* Add a subtle blur for depth */
-  backdrop-filter: blur(2.5px);
+  animation: none;
 }
-@keyframes dragon-move {
-  0% { background-position: 50% 40%; opacity: 0.22; }
-  50% { background-position: 60% 60%; opacity: 0.32; }
-  100% { background-position: 50% 40%; opacity: 0.22; }
-}
-/* Floating gold sparkles */
+/* Floating gold sparkles - only gold/yellow/white */
 .bg-sparkle {
   pointer-events: none;
   position: fixed;
@@ -54,7 +41,7 @@ body::before {
 .bg-sparkle span {
   position: absolute;
   border-radius: 50%;
-  background: radial-gradient(circle, #fffbe6 0%, #ffd700 60%, #a80000 100%);
+  background: radial-gradient(circle, #fffbe6 0%, #ffd700 80%, #e6c200 100%);
   opacity: 0.7;
   pointer-events: none;
   animation: sparkle-float 8s linear infinite;
@@ -257,7 +244,7 @@ body::before {
   font-family: 'DragonFont', 'Orbitron', Arial, sans-serif;
   font-size: 1.18rem;
   font-weight: bold;
-  color: #ffd700;
+  color: #a80000;
   border: 5px solid #ffd700;
   box-shadow:
     0 6px 24px #a80000bb,
@@ -265,7 +252,7 @@ body::before {
     0 0 0 6px #ffd70044 inset,
     0 0 16px 4px #ffd70055;
   position: relative;
-  background: linear-gradient(145deg, #ffd70044 0%, transparent 100%), #a80000;
+  background: radial-gradient(circle at 60% 30%, #fffde4 70%, #ffd700 100%), linear-gradient(145deg, #ffd700 60%, #fffde4 100%);
   overflow: hidden;
   transition: box-shadow 0.2s;
   animation: chip-shine 2.5s linear infinite;
@@ -283,6 +270,7 @@ body::before {
   pointer-events: none;
   z-index: 1;
   opacity: 0.95;
+  background: repeating-conic-gradient(from 0deg, #fffde4 0 10deg, transparent 10deg 20deg);
 }
 .chip .chip-value {
   position: relative;
@@ -298,50 +286,25 @@ body::before {
   border: 2px solid #ffd700;
   filter: drop-shadow(0 0 6px #ffd70088);
 }
-.chip.chip-1 {
-  background: radial-gradient(circle at 60% 30%, #fff 70%, #ffd700 100%), linear-gradient(145deg, #fff 60%, #ffd700 100%);
+.chip.chip-1,
+.chip.chip-5,
+.chip.chip-10,
+.chip.chip-25,
+.chip.chip-100,
+.chip.chip-500,
+.chip.chip-1000 {
+  background: radial-gradient(circle at 60% 30%, #fffde4 70%, #ffd700 100%), linear-gradient(145deg, #ffd700 60%, #fffde4 100%);
   color: #a80000;
   border-color: #ffd700;
 }
-.chip.chip-5 {
-  background: radial-gradient(circle at 60% 30%, #ff6b6b 70%, #ffd700 100%), linear-gradient(145deg, #e74c3c 60%, #ffd700 100%);
-}
-.chip.chip-10 {
-  background: radial-gradient(circle at 60% 30%, #ffb36b 70%, #ffd700 100%), linear-gradient(145deg, #ffd700 60%, #a80000 100%);
-}
-.chip.chip-25 {
-  background: radial-gradient(circle at 60% 30%, #ffd700 70%, #a80000 100%), linear-gradient(145deg, #ffd700 60%, #a80000 100%);
-}
-.chip.chip-100 {
-  background: radial-gradient(circle at 60% 30%, #ffd700 70%, #a80000 100%), linear-gradient(145deg, #ffd700 60%, #a80000 100%);
-}
-.chip.chip-500 {
-  background: radial-gradient(circle at 60% 30%, #ffd700 70%, #a80000 100%), linear-gradient(145deg, #ffd700 60%, #a80000 100%);
-}
-.chip.chip-1000 {
-  background: radial-gradient(circle at 60% 30%, #fffde4 70%, #ffd700 100%), linear-gradient(145deg, #ffd700 60%, #a80000 100%);
-  color: #a80000;
-}
-.chip.chip-1 .chip-stripes {
-  background: repeating-conic-gradient(from 0deg, #ffd700 0 10deg, transparent 10deg 20deg);
-}
-.chip.chip-5 .chip-stripes {
-  background: repeating-conic-gradient(from 0deg, #fff 0 10deg, transparent 10deg 20deg);
-}
-.chip.chip-10 .chip-stripes {
-  background: repeating-conic-gradient(from 0deg, #fff 0 10deg, transparent 10deg 20deg);
-}
-.chip.chip-25 .chip-stripes {
-  background: repeating-conic-gradient(from 0deg, #fff 0 10deg, transparent 10deg 20deg);
-}
-.chip.chip-100 .chip-stripes {
-  background: repeating-conic-gradient(from 0deg, #fff 0 10deg, transparent 10deg 20deg);
-}
-.chip.chip-500 .chip-stripes {
-  background: repeating-conic-gradient(from 0deg, #fff 0 10deg, transparent 10deg 20deg);
-}
+.chip.chip-1 .chip-stripes,
+.chip.chip-5 .chip-stripes,
+.chip.chip-10 .chip-stripes,
+.chip.chip-25 .chip-stripes,
+.chip.chip-100 .chip-stripes,
+.chip.chip-500 .chip-stripes,
 .chip.chip-1000 .chip-stripes {
-  background: repeating-conic-gradient(from 0deg, #fff 0 10deg, transparent 10deg 20deg);
+  background: repeating-conic-gradient(from 0deg, #fffde4 0 10deg, transparent 10deg 20deg);
 }
 
 @media (max-width: 900px) {
