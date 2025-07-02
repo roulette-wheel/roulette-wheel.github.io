@@ -131,6 +131,11 @@ body::before {
   -webkit-appearance: none;
   margin: 0;
 }
+#betForm select option {
+  font-family: 'DragonFont', 'Orbitron', Arial, sans-serif;
+  background: #a80000;
+  color: #ffd700;
+}
 #betForm button, #rollBtn {
   margin-left: 8px;
   padding: 10px 32px;
