@@ -206,6 +206,7 @@ body::before {
   height: 100vh;
   width: 100vw;
   margin: 0 auto;
+  position: relative;
 }
 #moneyDisplay, #winningNumberDisplay, #betControls, #betResultDisplay, #rollBtn {
   margin-left: auto;
@@ -215,26 +216,50 @@ body::before {
   align-items: center;
 }
 .wheel-and-chips {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  width: 100%;
-  gap: 32px;
-  margin: 0 auto 0 740px;
   position: relative;
+  display: block;
+  width: 100vw;
+  height: 420px;
 }
-#chipStack {
+.wheel-section {
+  width: 420px;
+  height: 420px;
+  margin: 0 auto;
+  display: block;
+  position: relative;
+  z-index: 2;
+}
+.chip-board {
+  position: absolute;
+  left: 50%;
+  top: 35%;
+  transform: translate(250px, -30%);
+  min-width: 180px;
+  min-height: 320px;
+  background: rgba(255, 215, 0, 0.25);
+  border: 3px solid #ffd700;
+  border-radius: 24px;
+  box-shadow: 0 2px 24px #ffd70044, 0 0 0 8px #fffbe644 inset;
+  padding: 16px 14px;
+  z-index: 3;
+  display: block;
+}
+.chips-section {
+  position: static;
+  top: auto;
+  left: auto;
+  transform: none;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
   min-width: 70px;
-  min-height: 420px;
-  gap: 8px;
-  margin: 0;
+  max-width: 40vw;
+  background: none;
+  pointer-events: none;
+}
+#chipStack {
+  pointer-events: auto;
 }
 .chip-column {
   display: flex;
