@@ -306,13 +306,13 @@ function spinWheel() {
 
 // Play gong sound
 function playGong() {
-  const audio = new Audio('./Assets/gong.mp3');
+  const audio = new Audio('Assets/gong.mp3');
   audio.volume = 0.7;
   audio.play();
 }
 
 function playChineseNoise() {
-  const audio = new Audio('./Assets/chinesenoise.mp3');
+  const audio = new Audio('Assets/chinesenoise.mp3');
   audio.volume = 0.7;
   audio.play();
 }
