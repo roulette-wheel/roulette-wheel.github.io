@@ -13,25 +13,30 @@ body {
   font-family: 'DragonFont', 'Orbitron', Arial, sans-serif;
   overflow: hidden;
   position: relative;
-  /* Animated red/gold gradient */
-  background: linear-gradient(120deg, #a80000 0%, #d42d2d 40%, #ffd700 100%);
-  background-size: 200% 200%;
-  animation: bg-gradient-move 12s ease-in-out infinite;
-}
-@keyframes bg-gradient-move {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  /* Replace gradient with image background, add effects for coolness */
+  background: url('Assets/testingbg.png') center center/cover no-repeat fixed;
+  background-blend-mode: darken, luminosity;
+  filter: none;
+  /* Remove old gradient/animation */
+  /* background: linear-gradient(120deg, #a80000 0%, #d42d2d 40%, #ffd700 100%); */
+  /* background-size: 200% 200%; */
+  /* animation: bg-gradient-move 12s ease-in-out infinite; */
 }
 body::before {
+  /* ... existing code ... */
+  /* Add a dark overlay and keep the dragon SVG */
   content: '';
   position: fixed;
   inset: 0;
   z-index: 0;
-  background: url('https://svgshare.com/i/15kA.svg') center/cover no-repeat;
-  opacity: 0.22;
+  background:
+    linear-gradient(120deg, rgba(40,0,0,0.55) 0%, rgba(168,0,0,0.45) 60%, rgba(0,0,0,0.7) 100%),
+    url('https://svgshare.com/i/15kA.svg') center/cover no-repeat;
+  opacity: 0.33;
   pointer-events: none;
   animation: dragon-move 24s linear infinite alternate;
+  /* Add a subtle blur for depth */
+  backdrop-filter: blur(2.5px);
 }
 @keyframes dragon-move {
   0% { background-position: 50% 40%; opacity: 0.22; }
