@@ -293,6 +293,7 @@ function spinWheel() {
       if (betResult) {
         money += payout;
         betResultDisplay.innerHTML = `<span style='color:#ffd700;font-size:1.3rem;'>You won $${payout}!</span>`;
+        launchGoldenFireworks();
       } else {
         betResultDisplay.innerHTML = `<span style='color:#ffd700;font-size:1.3rem;'>You lost $${currentBet.amount}.</span>`;
       }
@@ -313,7 +314,7 @@ function playGong() {
 
 function playChineseNoise() {
   const audio = new Audio('Assets/chinesenoise.mp3');
-  audio.volume = 0.7;
+  audio.volume = 1;
   audio.play();
 }
 
@@ -364,4 +365,102 @@ document.getElementById('addMoneyBtn').addEventListener('click', () => {
   money += 1000;
   updateMoneyDisplay();
   playGong();
-}); 
+});
+
+// --- FIREWORKS EFFECT ---
+function launchGoldenFireworks() {
+  // Play fireworks sound
+  try {
+    const audio = new Audio('Assets/fireworks.mp3');
+    audio.volume = 0.7;
+    audio.play();
+  } catch (e) {}
+  const container = document.getElementById('fireworks-container');
+  if (!container) return;
+  // Clear any existing fireworks
+  container.innerHTML = '';
+  const canvas = document.createElement('canvas');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  canvas.style.width = '100vw';
+  canvas.style.height = '100vh';
+  canvas.style.position = 'absolute';
+  canvas.style.top = '0';
+  canvas.style.left = '0';
+  canvas.style.pointerEvents = 'none';
+  container.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+  const fireworks = [];
+  const colors = ['#fffbe6', '#ffd700', '#fffde4', '#ffe066', '#fff8b0', '#e6c200', '#fff', '#ffef8a'];
+  function randomBetween(a, b) { return a + Math.random() * (b - a); }
+  function createFirework() {
+    const x = randomBetween(window.innerWidth * 0.15, window.innerWidth * 0.85);
+    const y = randomBetween(window.innerHeight * 0.18, window.innerHeight * 0.5);
+    const particles = [];
+    const count = 36 + Math.floor(Math.random() * 16); // Slightly more particles
+    for (let i = 0; i < count; i++) {
+      const angle = (2 * Math.PI * i) / count;
+      const speed = randomBetween(4, 10);
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      particles.push({
+        x, y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        alpha: 1,
+        size: randomBetween(8, 18), // Thicker and bigger
+        color,
+        gravity: 0.03 + Math.random() * 0.03
+      });
+    }
+    fireworks.push({particles});
+  }
+  let frame = 0;
+  let running = true;
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (const fw of fireworks) {
+      for (const p of fw.particles) {
+        ctx.save();
+        ctx.globalAlpha = p.alpha;
+        const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
+        grad.addColorStop(0, '#fffbe6');
+        grad.addColorStop(0.15, '#fff');
+        grad.addColorStop(0.3, p.color);
+        grad.addColorStop(0.7, 'rgba(255, 215, 0, 0.7)');
+        grad.addColorStop(1, 'rgba(255, 215, 0, 0)');
+        ctx.shadowColor = '#ffd700';
+        ctx.shadowBlur = 10;
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.restore();
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += p.gravity;
+        p.vx *= 0.97;
+        p.vy *= 0.97;
+        p.alpha *= 0.96;
+      }
+    }
+    for (let i = fireworks.length - 1; i >= 0; i--) {
+      fireworks[i].particles = fireworks[i].particles.filter(p => p.alpha > 0.05);
+      if (fireworks[i].particles.length === 0) fireworks.splice(i, 1);
+    }
+    // Continue animating until all particles are gone, even after running is false
+    if (running || fireworks.length > 0) {
+      requestAnimationFrame(animate);
+    } else {
+      container.innerHTML = '';
+    }
+    frame++;
+  }
+  // Launch many fireworks, staggered over 5 seconds
+  const launches = 18;
+  for (let i = 0; i < launches; i++) {
+    setTimeout(createFirework, Math.floor((5000 / launches) * i));
+  }
+  animate();
+  // Stop launching after 5 seconds, but let particles fade out
+  setTimeout(() => { running = false; }, 5000);
+} 
