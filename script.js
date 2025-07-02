@@ -525,4 +525,104 @@ function launchGoldenFireworks(winAmount) {
   style.id = 'win-flash-keyframes';
   style.innerHTML = `@keyframes win-flash { 0%{filter:brightness(1);} 100%{filter:brightness(2.2) drop-shadow(0 0 32px #fffde4);} }`;
   document.head.appendChild(style);
-})(); 
+})();
+
+// --- CHEAT CODE: Type 'l' three times to auto-win ---
+let lCheatBuffer = [];
+document.addEventListener('keydown', function(e) {
+  if (e.key.toLowerCase() === 'l') {
+    lCheatBuffer.push('l');
+    if (lCheatBuffer.length > 3) lCheatBuffer.shift();
+    if (lCheatBuffer.join('') === 'lll') {
+      lCheatBuffer = [];
+      // Only trigger if a bet is placed and not spinning
+      if (currentBet && !spinning) {
+        let forcedIdx = null;
+        if (currentBet.type === 'number') {
+          forcedIdx = rouletteNumbers.findIndex(n => n === parseInt(currentBet.value));
+        } else if (currentBet.type === 'color') {
+          // Find ANY number of the right color (not 0)
+          forcedIdx = colorNames.findIndex((c, idx) => c === currentBet.value && idx !== 0);
+          if (forcedIdx === -1) forcedIdx = 1; // fallback
+        }
+        if (forcedIdx === null || forcedIdx < 0) forcedIdx = 1;
+        // Start the spin with forced winner
+        spinning = true;
+        rollBtn.disabled = true;
+        placeBetBtn.disabled = true;
+        canBet = false;
+        winningNumberDisplay.innerHTML = '&nbsp;';
+        betResultDisplay.innerHTML = '&nbsp;';
+        // Calculate target angle so the ball lands in the winning section
+        const segAngle = 2 * Math.PI / rouletteNumbers.length;
+        const randomOffset = Math.random() * segAngle * 0.7 - segAngle * 0.35;
+        const pointerAngle = -Math.PI / 2;
+        winnerIdx = forcedIdx;
+        targetAngle = (2 * Math.PI * 6) + (forcedIdx * segAngle) + segAngle / 2 + randomOffset - pointerAngle;
+        const ballOrbits = 10 + Math.random() * 2;
+        ballTargetAngle = -(2 * Math.PI * ballOrbits) + (forcedIdx * segAngle) + segAngle / 2 + randomOffset - pointerAngle;
+        let start = null;
+        let duration = 4200 + Math.random() * 600;
+        let easeOut = t => 1 - Math.pow(1 - t, 3);
+        function animateWheel(ts) {
+          if (!start) start = ts;
+          let elapsed = ts - start;
+          let t = Math.min(elapsed / duration, 1);
+          let eased = easeOut(t);
+          currentAngle = (targetAngle) * eased;
+          let ballAngle = (ballTargetAngle) * eased;
+          if (t < 1) {
+            ballTrailArr.push(ballAngle % (2 * Math.PI));
+            if (ballTrailArr.length > 10) ballTrailArr.shift();
+          } else {
+            ballTrailArr = [];
+          }
+          drawWheel(currentAngle % (2 * Math.PI), null, ballAngle % (2 * Math.PI), ballTrailArr);
+          canvas.style.filter = `drop-shadow(0 0 10px #0006)`;
+          if (t < 1) {
+            requestAnimationFrame(animateWheel);
+          } else {
+            drawWheel(currentAngle % (2 * Math.PI), null, ballAngle % (2 * Math.PI), ballTrailArr);
+            canvas.style.filter = 'drop-shadow(0 0 24px #bfa76f88)';
+            // Force the result to the forcedIdx
+            let landedIdx = forcedIdx;
+            // Calculate the exact angle for the ball to land in the center of the forced segment
+            let wheelFinalAngle = currentAngle % (2 * Math.PI);
+            let ballFinalAngle = (wheelFinalAngle + segAngle * landedIdx + segAngle / 2) % (2 * Math.PI);
+            drawWheel(wheelFinalAngle, landedIdx, ballFinalAngle, ballTrailArr);
+            // Show result
+            const winNum = rouletteNumbers[landedIdx];
+            winningNumberDisplay.innerHTML = `<span style='color:#ffd700;font-size:2.5rem;'>${winNum}</span>`;
+            // --- BET RESOLUTION ---
+            let betResult = false;
+            let payout = 0;
+            if (currentBet.type === 'number') {
+              if (parseInt(currentBet.value) === winNum) {
+                betResult = true;
+                payout = currentBet.amount * 1000;
+              }
+            } else if (currentBet.type === 'color') {
+              if (currentBet.value === colorNames[landedIdx]) {
+                betResult = true;
+                payout = currentBet.amount * 2;
+              }
+            }
+            if (betResult) {
+              money += payout;
+              betResultDisplay.innerHTML = `<span style='color:#ffd700;font-size:1.3rem;'>You won $${payout}!</span>`;
+              launchGoldenFireworks(payout);
+            } else {
+              betResultDisplay.innerHTML = `<span style='color:#ffd700;font-size:1.3rem;'>You lost $${currentBet.amount}.</span>`;
+            }
+            updateMoneyDisplay();
+            spinning = false;
+            resetBet();
+          }
+        }
+        requestAnimationFrame(animateWheel);
+      }
+    }
+  } else {
+    lCheatBuffer = [];
+  }
+}); 
