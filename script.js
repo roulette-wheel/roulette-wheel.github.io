@@ -282,7 +282,7 @@ function spinWheel() {
       if (currentBet.type === 'number') {
         if (parseInt(currentBet.value) === winNum) {
           betResult = true;
-          payout = currentBet.amount * 100;
+          payout = currentBet.amount * 1000;
         }
       } else if (currentBet.type === 'color') {
         if (currentBet.value === colorNames[landedIdx]) {
@@ -414,7 +414,7 @@ function launchGoldenFireworks(winAmount) {
       </span>`;
       winTextDiv.style.display = 'block';
       winTextDiv.style.opacity = '1';
-      // Remove after 5s (match fireworks duration)
+      // Remove after 6s (match fireworks duration)
       setTimeout(() => {
         winTextDiv.style.transition = 'opacity 0.7s';
         winTextDiv.style.opacity = '0';
@@ -424,7 +424,7 @@ function launchGoldenFireworks(winAmount) {
           winTextDiv.style.transition = '';
           winTextDiv.style.opacity = '';
         }, 800);
-      }, 5000);
+      }, 7000);
     }
   }
   const container = document.getElementById('fireworks-container');
@@ -508,14 +508,14 @@ function launchGoldenFireworks(winAmount) {
     }
     frame++;
   }
-  // Launch many fireworks, staggered over 5 seconds
+  // Launch many fireworks, staggered over 6 seconds
   const launches = 18;
   for (let i = 0; i < launches; i++) {
-    setTimeout(createFirework, Math.floor((5000 / launches) * i));
+    setTimeout(createFirework, Math.floor((6000 / launches) * i));
   }
   animate();
-  // Stop launching after 5 seconds, but let particles fade out
-  setTimeout(() => { running = false; }, 5000);
+  // Stop launching after 6 seconds, but let particles fade out
+  setTimeout(() => { running = false; }, 6000);
 }
 
 // Add keyframes for win-flash animation
