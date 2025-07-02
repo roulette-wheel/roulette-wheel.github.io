@@ -293,7 +293,7 @@ function spinWheel() {
       if (betResult) {
         money += payout;
         betResultDisplay.innerHTML = `<span style='color:#ffd700;font-size:1.3rem;'>You won $${payout}!</span>`;
-        launchGoldenFireworks();
+        launchGoldenFireworks(payout);
       } else {
         betResultDisplay.innerHTML = `<span style='color:#ffd700;font-size:1.3rem;'>You lost $${currentBet.amount}.</span>`;
       }
@@ -368,13 +368,65 @@ document.getElementById('addMoneyBtn').addEventListener('click', () => {
 });
 
 // --- FIREWORKS EFFECT ---
-function launchGoldenFireworks() {
+let slotAudio = null;
+function stopSlotAudio() {
+  if (slotAudio) {
+    slotAudio.pause();
+    slotAudio.currentTime = 0;
+    slotAudio = null;
+  }
+}
+function launchGoldenFireworks(winAmount) {
   // Play fireworks sound
   try {
     const audio = new Audio('Assets/fireworks.mp3');
-    audio.volume = 0.7;
+    audio.volume = 1.5;
     audio.play();
   } catch (e) {}
+  // Play slotmachine sound in a loop during fireworks
+  try {
+    stopSlotAudio(); // Stop any previous
+    slotAudio = new Audio('Assets/slotmachine.mp3');
+    slotAudio.volume = 0.7;
+    slotAudio.loop = true;
+    slotAudio.play();
+  } catch (e) {}
+  // Show big win text overlay
+  if (typeof winAmount === 'number' && winAmount > 0) {
+    const winTextDiv = document.getElementById('win-flash-text');
+    if (winTextDiv) {
+      winTextDiv.innerHTML = `<span style="
+        display:inline-block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size:7vw;
+        font-family:'DragonFont','Orbitron',Arial,sans-serif;
+        color:#ffd700;
+        text-shadow:0 0 32px #fff,0 0 16px #ffd700,0 2px 8px #a80000;
+        font-weight:bold;
+        letter-spacing:2px;
+        animation: win-flash 0.5s alternate infinite;
+        /* background:rgba(0,0,0,0.18);padding:0.2em 1em;border-radius:32px; */
+      ">
+        You won $${winAmount}!
+      </span>`;
+      winTextDiv.style.display = 'block';
+      winTextDiv.style.opacity = '1';
+      // Remove after 5s (match fireworks duration)
+      setTimeout(() => {
+        winTextDiv.style.transition = 'opacity 0.7s';
+        winTextDiv.style.opacity = '0';
+        setTimeout(() => {
+          winTextDiv.style.display = 'none';
+          winTextDiv.innerHTML = '';
+          winTextDiv.style.transition = '';
+          winTextDiv.style.opacity = '';
+        }, 800);
+      }, 5000);
+    }
+  }
   const container = document.getElementById('fireworks-container');
   if (!container) return;
   // Clear any existing fireworks
@@ -452,6 +504,7 @@ function launchGoldenFireworks() {
       requestAnimationFrame(animate);
     } else {
       container.innerHTML = '';
+      stopSlotAudio();
     }
     frame++;
   }
@@ -463,4 +516,13 @@ function launchGoldenFireworks() {
   animate();
   // Stop launching after 5 seconds, but let particles fade out
   setTimeout(() => { running = false; }, 5000);
-} 
+}
+
+// Add keyframes for win-flash animation
+(function addWinFlashKeyframes() {
+  if (document.getElementById('win-flash-keyframes')) return;
+  const style = document.createElement('style');
+  style.id = 'win-flash-keyframes';
+  style.innerHTML = `@keyframes win-flash { 0%{filter:brightness(1);} 100%{filter:brightness(2.2) drop-shadow(0 0 32px #fffde4);} }`;
+  document.head.appendChild(style);
+})(); 

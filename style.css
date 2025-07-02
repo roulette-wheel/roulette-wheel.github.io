@@ -166,6 +166,7 @@ body::before {
   z-index: 2;
   margin: 0;
   display: block;
+  flex-shrink: 0;
 }
 #pointer {
   position: absolute;
@@ -211,29 +212,50 @@ body::before {
 .wheel-and-chips {
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: wrap;
   width: 100%;
   gap: 32px;
-  margin: 0 auto 0 auto;
+  margin: 0 auto 0 740px;
   position: relative;
 }
 #chipStack {
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
-  justify-content: center;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
   min-width: 70px;
   min-height: 420px;
-  gap: 24px;
+  gap: 8px;
   margin: 0;
 }
 .chip-column {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 0;
+  justify-content: flex-start;
 }
+.chip-column .chip {
+  position: relative;
+}
+.chip-column .chip:not(:first-child) {
+  margin-top: -40px; /* overlap more so each chip is fully on top */
+}
+.chip-column .chip {
+  z-index: 1;
+}
+.chip-column .chip:nth-child(2) { z-index: 2; }
+.chip-column .chip:nth-child(3) { z-index: 3; }
+.chip-column .chip:nth-child(4) { z-index: 4; }
+.chip-column .chip:nth-child(5) { z-index: 5; }
+.chip-column .chip:nth-child(6) { z-index: 6; }
+.chip-column .chip:nth-child(7) { z-index: 7; }
+.chip-column .chip:nth-child(8) { z-index: 8; }
+.chip-column .chip:nth-child(9) { z-index: 9; }
+.chip-column .chip:nth-child(10) { z-index: 10; }
 .chip {
   width: 56px;
   height: 56px;
@@ -281,10 +303,11 @@ body::before {
   font-size: 1.18rem;
   font-weight: bold;
   box-shadow: 0 2px 8px #a80000aa inset, 0 1px 0 #ffd700cc inset;
-  text-shadow: 0 2px 2px #a80000cc, 0 1px 0 #ffd700, 0 0 6px #ffd700cc;
   letter-spacing: 1px;
   border: 2px solid #ffd700;
   filter: drop-shadow(0 0 6px #ffd70088);
+  text-shadow: none;
+  color: #a80000;
 }
 .chip.chip-1,
 .chip.chip-5,
@@ -314,7 +337,7 @@ body::before {
   }
   #chipStack {
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     min-width: 0;
     min-height: 0;
     margin: 0;
@@ -323,8 +346,9 @@ body::before {
   }
   .chip-column {
     flex-direction: row;
-    align-items: flex-end;
+    align-items: flex-start;
     gap: 6px;
+    justify-content: flex-start;
   }
 }
 
@@ -363,4 +387,26 @@ body::before {
     padding: 12px 18px;
     font-size: 1.1rem;
   }
+}
+#moneyDisplay {
+  font-size: 3.2rem;
+  font-family: 'DragonFont', 'Orbitron', Arial, sans-serif;
+  color: #fffbe6;
+  background: linear-gradient(90deg, #ffd700 0%, #fffbe6 100%);
+  border: 5px solid #ffd700;
+  border-radius: 24px;
+  /box-shadow: 0 0 32px #ffd700cc, 0 0 0 8px #fffbe644 inset, 0 2px 16px #a80000cc;
+  text-align: center;
+  line-height: 72px;
+  letter-spacing: 2px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 0 0 16px #ffd700cc, 0 2px 8px #a80000, 0 0 8px #fffbe6cc;
+  min-width: 180px;
+  min-height: 72px;
+  margin-bottom: 18px;
+  margin-top: 18px;
+  z-index: 10;
 } 
