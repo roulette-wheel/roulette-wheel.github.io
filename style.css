@@ -11,7 +11,8 @@ body {
   align-items: center;
   justify-content: center;
   font-family: 'DragonFont', 'Orbitron', Arial, sans-serif;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   position: relative;
   /* Use static background image instead of gradient */
   background: url('Assets/testingbg.png') center center/cover no-repeat;
@@ -203,10 +204,14 @@ body::before {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  min-height: 100vh;
   width: 100vw;
   margin: 0 auto;
   position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  padding-bottom: 32px;
 }
 #moneyDisplay, #winningNumberDisplay, #betControls, #betResultDisplay, #rollBtn {
   margin-left: auto;
