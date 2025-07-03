@@ -259,7 +259,13 @@ body::before {
   pointer-events: none;
 }
 #chipStack {
+  display: grid;
+  grid-template-rows: repeat(2, auto);
+  grid-auto-flow: column;
+  gap: 12px 18px;
   pointer-events: auto;
+  justify-items: center;
+  align-items: start;
 }
 .chip-column {
   display: flex;
@@ -267,6 +273,7 @@ body::before {
   align-items: center;
   gap: 0;
   justify-content: flex-start;
+  min-width: 60px;
 }
 .chip-column .chip {
   position: relative;
@@ -360,6 +367,23 @@ body::before {
   background: repeating-conic-gradient(from 0deg, #fffde4 0 10deg, transparent 10deg 20deg);
 }
 
+.chip-count {
+  font-family: 'DragonFont', 'Orbitron', Arial, sans-serif;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ffd700;
+  background: linear-gradient(90deg, #a80000 0%, #d42d2d 100%);
+  border: 3px solid #ffd700;
+  border-radius: 12px;
+  padding: 4px 8px;
+  margin-top: 8px;
+  text-align: center;
+  min-width: 32px;
+  box-shadow: 0 2px 8px #a80000cc, 0 0 0 2px #ffd70044 inset;
+  text-shadow: 0 1px 4px #a80000, 0 0 4px #ffd700cc;
+  letter-spacing: 1px;
+}
+
 @media (max-width: 900px) {
   .wheel-and-chips {
     flex-direction: column;
@@ -425,7 +449,7 @@ body::before {
   background: linear-gradient(90deg, #ffd700 0%, #fffbe6 100%);
   border: 5px solid #ffd700;
   border-radius: 24px;
-  /box-shadow: 0 0 32px #ffd700cc, 0 0 0 8px #fffbe644 inset, 0 2px 16px #a80000cc;
+  box-shadow: 0 0 32px #ffd700cc, 0 0 0 8px #fffbe644 inset, 0 2px 16px #a80000cc;
   text-align: center;
   line-height: 72px;
   letter-spacing: 2px;

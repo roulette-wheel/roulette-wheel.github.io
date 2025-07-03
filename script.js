@@ -89,18 +89,36 @@ function renderChips(amount) {
     chipsByDenom[denom] = count;
     left -= count * denom;
   }
-  denominations.forEach(denom => {
-    if (chipsByDenom[denom] > 0) {
-      const col = document.createElement('div');
-      col.className = 'chip-column';
-      for (let i = 0; i < chipsByDenom[denom]; i++) {
+  // Only include chip types that are present
+  const presentDenoms = denominations.filter(denom => chipsByDenom[denom] > 0);
+  // Place chip columns in two rows, left-to-right, then wrap
+  presentDenoms.forEach((denom, idx) => {
+    const col = document.createElement('div');
+    col.className = 'chip-column';
+    // Set grid position: row 1 for first half, row 2 for second half
+    const row = idx < Math.ceil(presentDenoms.length / 2) ? 1 : 2;
+    const colIdx = row === 1 ? idx + 1 : idx - Math.ceil(presentDenoms.length / 2) + 1;
+    col.style.gridRow = row;
+    col.style.gridColumn = colIdx;
+    const count = chipsByDenom[denom];
+    if (count > 3) {
+      const div = document.createElement('div');
+      div.className = `chip chip-${denom}`;
+      div.innerHTML = `<div class='chip-stripes'></div><span class=\"chip-value\">$${denom}</span>`;
+      col.appendChild(div);
+      const countDiv = document.createElement('div');
+      countDiv.className = 'chip-count';
+      countDiv.textContent = count;
+      col.appendChild(countDiv);
+    } else {
+      for (let i = 0; i < count; i++) {
         const div = document.createElement('div');
         div.className = `chip chip-${denom}`;
-        div.innerHTML = `<div class='chip-stripes'></div><span class="chip-value">$${denom}</span>`;
+        div.innerHTML = `<div class='chip-stripes'></div><span class=\"chip-value\">$${denom}</span>`;
         col.appendChild(div);
       }
-      chipStack.appendChild(col);
     }
+    chipStack.appendChild(col);
   });
 }
 
