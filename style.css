@@ -137,42 +137,122 @@ body::before {
   background: #a80000;
   color: #ffd700;
 }
-#betForm button, #rollBtn {
+#betForm button, #rollBtn, #addMoneyBtn {
   margin-left: 8px;
-  padding: 10px 32px;
-  font-size: 1.3rem;
+  padding: 12px 38px;
+  font-size: 1.4rem;
   font-family: 'DragonFont', 'Orbitron', Arial, sans-serif;
   background: linear-gradient(90deg, #ffd700 0%, #d42d2d 100%);
   color: #a80000;
   border: 3px solid #ffd700;
-  border-radius: 18px;
-  box-shadow: 0 2px 16px #a80000cc, 0 0 0 4px #ffd70044 inset;
+  border-radius: 22px;
+  box-shadow: 0 4px 24px #ffd70088, 0 2px 0 #ffd70088 inset, 0 0 0 6px #ffd70044 inset, 0 0 16px 4px #ffd70055;
   cursor: pointer;
   letter-spacing: 2px;
-  transition: background 0.2s, transform 0.1s, color 0.2s;
+  transition: background 0.2s, transform 0.1s, color 0.2s, box-shadow 0.2s, border-color 0.3s;
   outline: none;
   position: relative;
   z-index: 3;
   text-shadow: 0 2px 8px #ffd700cc, 0 0 8px #a80000;
+  font-weight: bold;
+  overflow: hidden;
 }
-#betForm button:active, #rollBtn:active {
+#betForm button:hover, #rollBtn:hover {
+  background: linear-gradient(90deg, #fffbe6 0%, #ffd700 100%);
+  color: #a80000;
+  box-shadow: 0 0 32px 8px #ffd700cc, 0 2px 0 #ffd70088 inset, 0 0 0 8px #ffd70066 inset, 0 0 32px 8px #ffd70099;
+  transform: scale(1.08);
+  border-color: #fffbe6;
+}
+#betForm button:active, #rollBtn:active, #addMoneyBtn:active {
   background: linear-gradient(90deg, #d42d2d 0%, #ffd700 100%);
   color: #ffd700;
   transform: scale(0.97);
+  box-shadow: 0 2px 8px #a80000cc, 0 0 0 4px #ffd70044 inset;
+}
+#rollBtn {
+  font-size: 1.35rem;
+  padding: 14px 38px;
+  border-width: 3px;
+  border-radius: 22px;
+  box-shadow: 0 4px 24px #ffd700cc, 0 2px 0 #ffd70088 inset, 0 0 0 8px #ffd70044 inset, 0 0 24px 6px #ffd70099;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, #ffd700 0%, #fffbe6 100%);
+  color: #a80000;
+  font-weight: bold;
+}
+#rollBtn:hover {
+  background: linear-gradient(90deg, #fffbe6 0%, #ffd700 100%);
+  color: #a80000;
+  box-shadow: 0 0 32px 8px #ffd700ee, 0 2px 0 #ffd70088 inset, 0 0 0 10px #ffd70077 inset, 0 0 32px 8px #ffd700cc;
+  border-color: #fffbe6;
+  transform: translateY(-2px) scale(1.03);
+}
+#addMoneyBtn {
+  font-size: 1.3rem;
+  padding: 13px 32px;
+  border-width: 3px;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px #ffd700cc, 0 2px 0 #ffd70088 inset, 0 0 0 8px #ffd70044 inset, 0 0 20px 5px #ffd70099;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, #ffd700 0%, #fffbe6 100%);
+  color: #a80000;
+  font-weight: bold;
+}
+#addMoneyBtn:hover {
+  background: linear-gradient(90deg, #fffbe6 0%, #ffd700 100%);
+  color: #a80000;
+  box-shadow: 0 0 32px 8px #ffd700cc, 0 2px 0 #ffd70088 inset, 0 0 0 8px #ffd70066 inset, 0 0 32px 8px #ffd70099;
+  border-color: #fffbe6;
+  transform: translateY(-50%) scale(1.08);
 }
 #wheel {
   width: 420px;
   height: 420px;
   background: radial-gradient(circle at 60% 40%, #d42d2d 60%, #a80000 100%);
   border-radius: 50%;
-  box-shadow: 0 12px 48px #a80000cc, 0 1px 0 #ffd700 inset, 0 0 0 10px #ffd70099;
   border: 8px solid #ffd700;
+  outline: 4px solid #fffbe6;
+  outline-offset: 6px;
+  box-shadow:
+    0 0 0 8px #ffe066,
+    0 0 0 18px #ffd70055,
+    0 0 32px 8px #ffd700cc,
+    0 12px 48px #a80000cc,
+    0 1px 0 #ffd700 inset,
+    0 0 0 10px #ffd70099;
   transition: box-shadow 0.2s;
   position: relative;
   z-index: 2;
   margin: 0;
   display: block;
   flex-shrink: 0;
+  overflow: visible;
+}
+#wheel:before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 440px;
+  height: 440px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  background: conic-gradient(
+    #fffbe6 0deg 20deg,
+    #ffd700 20deg 60deg,
+    #fffbe6 60deg 120deg,
+    #ffd700 120deg 180deg,
+    #fffbe6 180deg 240deg,
+    #ffd700 240deg 300deg,
+    #fffbe6 300deg 360deg
+  );
+  opacity: 0.18;
+  box-shadow: 0 0 32px 8px #ffd70099;
 }
 #pointer {
   position: absolute;

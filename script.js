@@ -133,6 +133,18 @@ function resetBet() {
 // --- DRAW WHEEL ---
 const canvas = document.getElementById('wheel');
 const ctx = canvas.getContext('2d');
+
+// --- Load dragon image globally ---
+const dragonImg = new window.Image();
+dragonImg.src = 'Assets/badassdrag.png';
+
+dragonImg.onload = function() {
+  drawWheel();
+};
+if (dragonImg.complete && dragonImg.naturalWidth > 0) {
+  drawWheel();
+}
+
 function drawWheel(angle = 0, highlightIdx = null, ballAngle = null, ballTrail = null) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   const segAngle = 2 * Math.PI / rouletteNumbers.length;
@@ -179,6 +191,18 @@ function drawWheel(angle = 0, highlightIdx = null, ballAngle = null, ballTrail =
   ctx.shadowBlur = 10;
   ctx.fill();
   ctx.restore();
+
+  // --- Draw spiral dragon image, spinning with the wheel ---
+  if (dragonImg.complete && dragonImg.naturalWidth > 0) {
+    ctx.save();
+    ctx.translate(center, center);
+    ctx.rotate(angle); // spin with the wheel
+    ctx.globalAlpha = 1; // more clear
+    ctx.drawImage(dragonImg, -110, -140, 250, 250); // shifted up by 30px
+    ctx.restore();
+  }
+  // --- End dragon overlay ---
+
   // Draw the ball trail if provided (for motion blur)
   if (Array.isArray(ballTrail)) {
     for (let i = 0; i < ballTrail.length; i++) {
@@ -220,17 +244,7 @@ function drawWheel(angle = 0, highlightIdx = null, ballAngle = null, ballTrail =
     ctx.stroke();
     ctx.restore();
   }
-  // Draw a dragon SVG overlay (badass look)
-  const dragon = new window.Image();
-  dragon.src = 'https://svgshare.com/i/15kA.svg';
-  dragon.onload = function() {
-    ctx.save();
-    ctx.globalAlpha = 0.22;
-    ctx.drawImage(dragon, center - 160, center - 160, 320, 320);
-    ctx.restore();
-  };
 }
-drawWheel();
 
 // --- ANIMATION ---
 let spinning = false;
